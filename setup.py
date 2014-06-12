@@ -13,8 +13,8 @@ setup(
     author='Gary Johnson',
     author_email = 'gary@gjtt.com',
     description = 'Automation for BDD testing PyQt apps',
-    install_requires=['bottle', 'PyQt5'],
-    tests_require=['bottle', 'PyQt5'],
+    install_requires=['bottle'],
+    tests_require=['bottle'],
     license = 'MIT License',
     py_modules = ['groot'],
     )
