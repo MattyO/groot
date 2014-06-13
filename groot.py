@@ -25,7 +25,7 @@ def click():
     query_value = get_query_value()
     widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
     if widget is not None:
-        QTest.mouseClick(widget, Qt.LeftButton, get_widget_center(widget))
+        QTest.mouseClick(widget, Qt.LeftButton)
     return {}
         
 
@@ -68,12 +68,6 @@ def find_widget(parent, query_value):
             return found_widget
 
     return None
-
-
-def get_widget_center(widget):
-    width = method_or_default(widget, 'width', 0)
-    height = method_or_default(widget, 'height', 0)
-    return QPoint(width / 2, height / 2)
 
 
 def get_single_widget_json(widget):
