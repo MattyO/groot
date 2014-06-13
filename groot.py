@@ -72,10 +72,10 @@ def method_or_default(target, method_name, default):
 
 
 def find_widget(query_value, automation_type):
-    return find_widget(get_root_widget(), query_value, automation_type)
+    return find_widget_in_parent(get_root_widget(), query_value, automation_type)
 
 
-def find_widget(parent, query_value, query_automation_type):
+def find_widget_in_parent(parent, query_value, query_automation_type):
     for child in parent.children():
         value = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
@@ -88,7 +88,7 @@ def find_widget(parent, query_value, query_automation_type):
             elif query_automation_type in automation_type:
                 return child
 
-        found_widget = find_widget(child, query_value, automation_type)
+        found_widget = find_widget_in_parent(child, query_value, automation_type)
         if found_widget is not None:
             return found_widget
 
