@@ -68,7 +68,8 @@ def find_widget(parent, query_value, query_type):
     for child in parent.children():
         value = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
-        if query_value in value or query_value in name:
+        automation_id = method_or_default(child, 'automation_id', '')
+        if query_value in value or query_value in name or query_value in automation_id:
             return child
 
         found_widget = find_widget(child, query_value, query_type)
@@ -86,9 +87,8 @@ def get_single_widget_json(widget):
     win_id = method_or_default(widget, 'effectiveWinId', None)
     if win_id is not None:
         widget_id = "{0}".format(win_id)
-    value = method_or_default(widget, 'text', None)
-    if value is None:
-        value = method_or_default(widget, 'name', '')
+    value = method_or_default(widget, 'text', '')
+    name = method_or_default(widget, 'name', '')
     x = method_or_default(widget, 'x', 0)
     y = method_or_default(widget, 'y', 0)
     width = method_or_default(widget, 'width', 0)
@@ -97,7 +97,7 @@ def get_single_widget_json(widget):
     is_visible = method_or_default(widget, 'isVisible', False)
     is_enabled = method_or_default(widget, 'isEnabled', False)
 
-    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
+    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
 
 def get_widget_json(widget):
