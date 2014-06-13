@@ -71,7 +71,7 @@ def method_or_default(target, method_name, default):
     return value
 
 
-def find_widget(query_value, automation_type = None):
+def find_widget(query_value, automation_type):
     return find_widget(get_root_widget(), query_value, automation_type)
 
 
