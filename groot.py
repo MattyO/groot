@@ -25,7 +25,7 @@ def click():
     query_value = get_query_value()
     widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
     if widget is not None:
-        QTest.mouseClick(widget, Qt.LeftButton)
+        QTest.mouseClick(widget, Qt.LeftButton, get_widget_center(widget))
     return {}
         
 
@@ -55,7 +55,7 @@ def method_or_default(target, method_name, default):
     return value
 
 
-def find_widget(parent, query_value, query_type):
+def find_widget(parent, query_value):
     for child in parent.children():
         value = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
@@ -63,11 +63,17 @@ def find_widget(parent, query_value, query_type):
         if query_value in value or query_value in name or query_value in automation_id:
             return child
 
-        found_widget = find_widget(child, query_value, query_type)
+        found_widget = find_widget(child, query_value)
         if found_widget is not None:
             return found_widget
 
     return None
+
+
+def get_widget_center(widget):
+    width = method_or_default(widget, 'width', 0)
+    height = method_or_default(widget, 'height', 0)
+    return QPoint(width / 2, height / 2)
 
 
 def get_single_widget_json(widget):
