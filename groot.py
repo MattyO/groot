@@ -84,6 +84,8 @@ def get_single_widget_json(widget):
     if win_id is not None:
         widget_id = "{0}".format(win_id)
     value = method_or_default(widget, 'text', '')
+    if value is '':
+        value = method_or_default(widget, 'name', '')
     x = method_or_default(widget, 'x', 0)
     y = method_or_default(widget, 'y', 0)
     width = method_or_default(widget, 'width', 0)
