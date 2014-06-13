@@ -59,7 +59,7 @@ def method_or_default(target, method_name, default):
     if hasmethod(target, method_name):
         method = getattr(target, method_name)
         value = method()
-    elif hasattr(obj, method_name):
+    elif hasattr(target, method_name):
         value = getattr(target, method_name)
     return value
 
