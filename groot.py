@@ -22,8 +22,6 @@ def click():
     if widget is not None:
         #print("clicking on {0}".format(widget))
         QTest.mouseClick(widget, Qt.LeftButton)
-    else:
-        #print("didn't find widget to click")
     return {}
         
 
