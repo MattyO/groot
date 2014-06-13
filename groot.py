@@ -26,6 +26,7 @@ def click():
     widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
     if widget is not None:
         QTest.mouseClick(widget, Qt.LeftButton)
+        return get_widget_json(widget)
     return {}
         
 
