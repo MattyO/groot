@@ -59,6 +59,8 @@ def method_or_default(target, method_name, default):
     if hasmethod(target, method_name):
         method = getattr(target, method_name)
         value = method()
+    elif hasattr(obj, method_name):
+        value = getattr(target, method_name)
     return value
 
 
@@ -84,8 +86,8 @@ def get_single_widget_json(widget):
     win_id = method_or_default(widget, 'effectiveWinId', None)
     if win_id is not None:
         widget_id = "{0}".format(win_id)
-    value = method_or_default(widget, 'text', '')
-    if value is '':
+    value = method_or_default(widget, 'text', None)
+    if value is None:
         value = method_or_default(widget, 'name', '')
     x = method_or_default(widget, 'x', 0)
     y = method_or_default(widget, 'y', 0)
