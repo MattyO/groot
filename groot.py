@@ -75,20 +75,18 @@ def find_widget(query_value, automation_type):
     return find_widget_in_parent(get_root_widget(), query_value, automation_type)
 
 
-def find_widget_in_parent(parent, query_value, query_automation_type):
+def find_widget_in_parent(parent, query_value, automation_type):
     for child in parent.children():
         text = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
         automation_id = method_or_default(child, 'automation_id', '')
-        automation_type = method_or_default(child, 'automation_type', '')
+        child_automation_type = method_or_default(child, 'automation_type', '')
 
 
-        print("automation_type:{0}".format(automation_type))
-        print("query_automation_type:{0}".format(query_automation_type))
         if query_value in text or query_value in name or query_value in automation_id:
             if query_automation_type is None:
                 return child
-            elif query_automation_type in automation_type:
+            elif automation_type in child_automation_type:
                 return child
 
         found_widget = find_widget_in_parent(child, query_value, automation_type)
