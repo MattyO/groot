@@ -88,10 +88,11 @@ def get_single_widget_json(widget):
     y = method_or_default(widget, 'y', 0)
     width = method_or_default(widget, 'width', 0)
     height = method_or_default(widget, 'height', 0)
+    automation_id = method_or_default(widget, 'automation_id', '')
     is_visible = method_or_default(widget, 'isVisible', False)
     is_enabled = method_or_default(widget, 'isEnabled', False)
 
-    return {'type':widget.__class__.__name__, 'id':widget_id , 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
+    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
 
 def get_widget_json(widget):
