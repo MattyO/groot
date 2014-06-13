@@ -45,6 +45,14 @@ def get_query_value():
     return query_value
 
 
+def get_query_automation_type():
+    query = bottle.request.json['query']
+    query_value = ''
+    if 'automation_type' in query.keys():
+        query_value = query['automation_type']
+    return query_value
+
+
 def get_root_widget():
     return QApplication.topLevelWidgets()[0]
 
