@@ -17,13 +17,13 @@ def ping():
 def click():
     query_value = bottle.request.json['query']['value']
     query_type = bottle.request.json['query']['type']
-    print("query_value:{0}, query_type:{1}".format(query_value, query_type))
+    #print("query_value:{0}, query_type:{1}".format(query_value, query_type))
     widget = find_widget(QApplication.topLevelWidgets()[0], query_value, query_type)
     if widget is not None:
-        print("clicking on {0}".format(widget))
+        #print("clicking on {0}".format(widget))
         QTest.mouseClick(widget, Qt.LeftButton)
     else:
-        print("didn't find widget to click")
+        #print("didn't find widget to click")
     return {}
         
 
@@ -53,10 +53,10 @@ def method_or_default(target, method_name, default):
 
 
 def find_widget(parent, query_value, query_type):
-    print("find_widget parent: {0}".format(parent))
+    #print("find_widget parent: {0}".format(parent))
     for child in parent.children():
         value = method_or_default(child, 'text', '')
-        print("find_widget value: {0}".format(value))
+        #print("find_widget value: {0}".format(value))
         if query_value in value:
             return child
 
