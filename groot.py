@@ -77,6 +77,9 @@ def find_widget(query_value, automation_type):
 
 def find_widget_in_parent(parent, query_value, query_automation_type):
     for child in parent.children():
+        text = method_or_default(child, 'text', '')
+        name = method_or_default(child, 'name', '')
+        automation_id = method_or_default(child, 'automation_id', '')
         automation_type = method_or_default(child, 'automation_type', '')
 
         if query_value in value or query_value in name or query_value in automation_id:
