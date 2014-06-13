@@ -65,7 +65,8 @@ def method_or_default(target, method_name, default):
 def find_widget(parent, query_value, query_type):
     for child in parent.children():
         value = method_or_default(child, 'text', '')
-        if query_value in value:
+        name = method_or_default(child, 'name', '')
+        if query_value in value or query_value in name:
             return child
 
         found_widget = find_widget(child, query_value, query_type)
