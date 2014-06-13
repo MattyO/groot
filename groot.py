@@ -77,9 +77,6 @@ def find_widget(query_value, automation_type):
 
 def find_widget_in_parent(parent, query_value, query_automation_type):
     for child in parent.children():
-        value = method_or_default(child, 'text', '')
-        name = method_or_default(child, 'name', '')
-        automation_id = method_or_default(child, 'automation_id', '')
         automation_type = method_or_default(child, 'automation_type', '')
 
         if query_value in value or query_value in name or query_value in automation_id:
@@ -110,10 +107,11 @@ def get_single_widget_json(widget):
     width = method_or_default(widget, 'width', 0)
     height = method_or_default(widget, 'height', 0)
     automation_id = method_or_default(widget, 'automation_id', '')
+    automation_type = method_or_default(widget, 'automation_type', '')
     is_visible = method_or_default(widget, 'isVisible', False)
     is_enabled = method_or_default(widget, 'isEnabled', False)
 
-    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
+    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
 
 def get_widget_json(widget):
