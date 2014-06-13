@@ -8,6 +8,12 @@ from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
 
 
+def get_query_value():
+    query = bottle.request.json['query']
+    query_value = ''
+    if 'value' in query.keys():
+        query_value = query['value']
+    return query_value
 
 @bottle.get("/ping")
 def ping():
@@ -16,32 +22,17 @@ def ping():
 
 @bottle.post("/click")
 def click():
-    query = bottle.request.json['query']
-    query_value = ''
-    if 'value' in query.keys():
-        query_value = query['value']
-    query_type = '' 
-    if 'type' in query.keys():
-        query_type = query['type']
-
-    widget = find_widget(QApplication.topLevelWidgets()[0], query_value, query_type)
+    query_value = get_query_value()
+    widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
     if widget is not None:
         QTest.mouseClick(widget, Qt.LeftButton)
-
     return {}
         
 
 @bottle.post("/find_element")
 def find_element():
-    query = bottle.request.json['query']
-    query_value = ''
-    if 'value' in query.keys():
-        query_value = query['value']
-    query_type = '' 
-    if 'type' in query.keys():
-        query_type = query['type']
-
-    widget = find_widget(QApplication.topLevelWidgets()[0], query_value, query_type)
+    query_value = get_query_value()
+    widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
     return get_single_widget_json(widget)
 
 
