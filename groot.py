@@ -8,13 +8,6 @@ from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
 
 
-def get_query_value():
-    query = bottle.request.json['query']
-    query_value = ''
-    if 'value' in query.keys():
-        query_value = query['value']
-    return query_value
-
 @bottle.get("/ping")
 def ping():
     return 'Ping!'
@@ -23,7 +16,8 @@ def ping():
 @bottle.post("/click")
 def click():
     query_value = get_query_value()
-    widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
+    automation_type = get_query_automation_type()
+    widget = find_widget(query_value, automation_type)
     if widget is not None:
         QTest.mouseClick(widget, Qt.LeftButton)
         return get_widget_json(widget)
@@ -33,13 +27,26 @@ def click():
 @bottle.post("/find_element")
 def find_element():
     query_value = get_query_value()
-    widget = find_widget(QApplication.topLevelWidgets()[0], query_value)
+    automation_type = get_query_automation_type()
+    widget = find_widget(query_value, automation_type)
     return get_single_widget_json(widget)
 
 
 @bottle.get("/ui_tree")
 def ui_tree():
-    return get_widget_json(QApplication.topLevelWidgets()[0])
+    return get_widget_json(get_root_widget())
+
+
+def get_query_value():
+    query = bottle.request.json['query']
+    query_value = ''
+    if 'value' in query.keys():
+        query_value = query['value']
+    return query_value
+
+
+def get_root_widget():
+    return QApplication.topLevelWidgets()[0]
 
 
 def hasmethod(obj, method_name):
@@ -56,15 +63,24 @@ def method_or_default(target, method_name, default):
     return value
 
 
-def find_widget(parent, query_value):
+def find_widget(query_value, automation_type = None):
+    return find_widget(get_root_widget(), query_value, automation_type)
+
+
+def find_widget(parent, query_value, query_automation_type):
     for child in parent.children():
         value = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
         automation_id = method_or_default(child, 'automation_id', '')
-        if query_value in value or query_value in name or query_value in automation_id:
-            return child
+        automation_type = method_or_default(child, 'automation_type', '')
 
-        found_widget = find_widget(child, query_value)
+        if query_value in value or query_value in name or query_value in automation_id:
+            if query_automation_type is None:
+                return child
+            elif query_automation_type in automation_type:
+                return child
+
+        found_widget = find_widget(child, query_value, automation_type)
         if found_widget is not None:
             return found_widget
 
