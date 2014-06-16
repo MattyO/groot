@@ -57,7 +57,7 @@ def get_query_automation_type():
 
 
 def get_root_widget():
-    return QApplication.topLevelWidgets()
+    return QApplication.topLevelWidgets()[0]
 
 
 def hasmethod(obj, method_name):
