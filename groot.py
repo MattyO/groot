@@ -90,7 +90,7 @@ def find_widget(query_value, automation_type):
 
 
 def find_widget_in_parent(parent, query_value, automation_type):
-    for child in get_children_for_widget(parent)
+    for child in get_children_for_widget(parent):
         text = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
         automation_id = method_or_default(child, 'automation_id', '')
@@ -139,7 +139,7 @@ def get_widget_json(widget):
     widget_json = get_single_widget_json(widget)
 
     children_json = []
-    for child in get_children_for_widget(widget)
+    for child in get_children_for_widget(widget):
         children_json.append(get_widget_json(child))
     widget_json['children'] = children_json
 
