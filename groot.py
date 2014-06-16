@@ -60,7 +60,7 @@ def get_root_widget():
     return QApplication.topLevelWidgets()[0]
 
 def get_children_for_widget(widget):
-    children = method_or_default(parent, "children", None)
+    children = method_or_default(widget, "children", None)
 
     if children is None and hasmethod(widget, "findChildren"):
         children = widget.findChildren(QObject)
