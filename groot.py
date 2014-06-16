@@ -137,7 +137,13 @@ def get_widget_json(widget):
     widget_json = get_single_widget_json(widget)
 
     children_json = []
-    for child in widget.children():
+    children = method_or_default(parent, "children", [])
+
+    if len(children) == 0:
+        print("parent {0} has no children() method!!!".format(parent))
+        print("")
+
+    for child in children:
         children_json.append(get_widget_json(child))
     widget_json['children'] = children_json
 
