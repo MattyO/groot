@@ -79,6 +79,9 @@ def find_widget(query_value, automation_type):
 
 
 def find_widget_in_parent(parent, query_value, automation_type):
+    if parent.children() is None:
+        return None
+
     for child in parent.children():
         text = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
