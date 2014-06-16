@@ -2,7 +2,7 @@ import bottle
 import threading
 
 from bottle import template
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtCore import Qt, QPoint, QObject
 from PyQt5.QtGui import QCursor
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
@@ -59,6 +59,17 @@ def get_query_automation_type():
 def get_root_widget():
     return QApplication.topLevelWidgets()[0]
 
+def get_children_for_widget(widget):
+    children = method_or_default(parent, "children", None)
+
+    if children is None and hasmethod(widget, "findChildren"):
+        children = widget.findChildren(QObject)
+
+    if children is None:
+        children = []
+
+    return children
+
 
 def hasmethod(obj, method_name):
     return hasattr(obj, method_name) and callable(getattr(obj, method_name))
@@ -79,13 +90,7 @@ def find_widget(query_value, automation_type):
 
 
 def find_widget_in_parent(parent, query_value, automation_type):
-    children = method_or_default(parent, "children", [])
-
-    if len(children) == 0:
-        print("parent {0} has no children() method!!!".format(parent))
-        print("")
-
-    for child in children:
+    for child in get_children_for_widget(parent)
         text = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
         automation_id = method_or_default(child, 'automation_id', '')
@@ -134,13 +139,7 @@ def get_widget_json(widget):
     widget_json = get_single_widget_json(widget)
 
     children_json = []
-    children = method_or_default(widget, "children", [])
-
-    if len(children) == 0:
-        print("parent {0} has no children() method!!!".format(widget))
-        print("")
-
-    for child in children:
+    for child in get_children_for_widget(widget)
         children_json.append(get_widget_json(child))
     widget_json['children'] = children_json
 
