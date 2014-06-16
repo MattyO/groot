@@ -81,8 +81,12 @@ def find_widget(query_value, automation_type):
 def find_widget_in_parent(parent, query_value, automation_type):
     children = method_or_default(parent, "children", [])
 
-    if children == []:
+    if len(children):
         print("parent {0} has no children() method!!!".format(parent))
+        print("")
+        print("")
+        print("")
+        print("")
 
     for child in children:
         text = method_or_default(child, 'text', '')
