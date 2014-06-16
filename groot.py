@@ -10,6 +10,9 @@ from PyQt5.QtWidgets import QApplication
 
 @bottle.get("/ping")
 def ping():
+    if len(QApplication.topLevelWidgets()) == 0
+        abort(503, "Still booting up, try again later")
+
     return 'Ping!'
 
 
@@ -54,7 +57,7 @@ def get_query_automation_type():
 
 
 def get_root_widget():
-    return QApplication.topLevelWidgets()[0]
+    return QApplication.topLevelWidgets()
 
 
 def hasmethod(obj, method_name):
