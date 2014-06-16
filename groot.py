@@ -84,9 +84,6 @@ def find_widget_in_parent(parent, query_value, automation_type):
     if len(children) == 0:
         print("parent {0} has no children() method!!!".format(parent))
         print("")
-        print("")
-        print("")
-        print("")
 
     for child in children:
         text = method_or_default(child, 'text', '')
@@ -137,10 +134,10 @@ def get_widget_json(widget):
     widget_json = get_single_widget_json(widget)
 
     children_json = []
-    children = method_or_default(parent, "children", [])
+    children = method_or_default(widget, "children", [])
 
     if len(children) == 0:
-        print("parent {0} has no children() method!!!".format(parent))
+        print("parent {0} has no children() method!!!".format(widget))
         print("")
 
     for child in children:
