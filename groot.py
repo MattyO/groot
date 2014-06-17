@@ -148,6 +148,6 @@ def get_widget_json(widget):
 
 def start_automation_server():
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':True})
-    thread.setDaemon(True)
+    thread.setDaemon(False)
     thread.start()
 
