@@ -57,10 +57,9 @@ def get_query_automation_type():
 
 
 def get_root_widget():
-    #top_level_widgets = QApplication.topLevelWidgets()
-    #print("top level widgets: {0}".format(top_level_widgets))
-    #return top_level_widgets[0]
-    return QApplication.activeWindow()
+    active_window = QApplication.activeWindow()
+    print("active window: {0}".format(active_window))
+    return active_window
 
 def get_children_for_widget(widget):
     children = method_or_default(widget, "children", None)
