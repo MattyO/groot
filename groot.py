@@ -67,7 +67,7 @@ def get_query_automation_type():
 
 def get_root_widget(window_name):
     for top_level_widget in QApplication.topLevelWidgets():
-        automation_id = method_or_default(top_level_widget, "automation_id", None)
+        automation_id = method_or_default(top_level_widget, "automation_id", '')
         if window_name in automation_id:
             return top_level_widget
 
