@@ -18,9 +18,10 @@ def ping():
 
 @bottle.post("/click")
 def click():
+    window_name = get_window_name()
     query_value = get_query_value()
     automation_type = get_query_automation_type()
-    widget = find_widget(query_value, automation_type)
+    widget = find_widget(window_name, query_value, automation_type)
     if widget is not None:
         QTest.mouseClick(widget, Qt.LeftButton)
         return get_widget_json(widget)
@@ -29,15 +30,17 @@ def click():
 
 @bottle.post("/find_element")
 def find_element():
+    window_name = get_window_name()
     query_value = get_query_value()
     automation_type = get_query_automation_type()
-    widget = find_widget(query_value, automation_type)
+    widget = find_widget(window_name, query_value, automation_type)
     return get_single_widget_json(widget)
 
 
 @bottle.get("/ui_tree")
 def ui_tree():
-    return get_widget_json(get_root_widget())
+    window_name = get_window_name()
+    return get_widget_json(get_root_widget(window_name))
 
 
 def get_query_value():
@@ -47,6 +50,12 @@ def get_query_value():
         query_value = query['value']
     return query_value
 
+def get_window_name():
+    query = bottle.request.json['query']
+    window_name = ''
+    if 'window_name' in query.keys():
+        window_name = query['window_name']
+    return window_name
 
 def get_query_automation_type():
     query = bottle.request.json['query']
@@ -56,10 +65,14 @@ def get_query_automation_type():
     return query_value
 
 
-def get_root_widget():
-    active_window = QApplication.activeWindow()
-    print("active window: {0}".format(active_window))
-    return active_window
+def get_root_widget(window_name):
+    for top_level_widget in QApplication.topLevelWidgets():
+        automation_id = method_or_default(top_level_widget, "automation_id", None)
+        if window_name in automation_id:
+            return top_level_widget
+
+    return QApplication.topLevelWidgets()[0]
+
 
 def get_children_for_widget(widget):
     children = method_or_default(widget, "children", None)
@@ -78,7 +91,7 @@ def hasmethod(obj, method_name):
 
 
 def method_or_default(target, method_name, default):
-    value  = default
+    value = default
     if hasmethod(target, method_name):
         method = getattr(target, method_name)
         value = method()
@@ -87,7 +100,7 @@ def method_or_default(target, method_name, default):
     return value
 
 
-def find_widget(query_value, automation_type):
+def find_widget(window_name, query_value, automation_type):
     return find_widget_in_parent(get_root_widget(), query_value, automation_type)
 
 
