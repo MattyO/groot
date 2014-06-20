@@ -101,7 +101,7 @@ def method_or_default(target, method_name, default):
 
 
 def find_widget(window_name, query_value, automation_type):
-    return find_widget_in_parent(get_root_widget(), query_value, automation_type)
+    return find_widget_in_parent(get_root_widget(window_name), query_value, automation_type)
 
 
 def find_widget_in_parent(parent, query_value, automation_type):
