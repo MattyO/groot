@@ -94,7 +94,10 @@ def method_or_default(target, method_name, default):
     value = default
     if hasmethod(target, method_name):
         method = getattr(target, method_name)
-        value = method()
+        try:
+            value = method()
+        except:
+            pass
     elif hasattr(target, method_name):
         value = getattr(target, method_name)
     return value
