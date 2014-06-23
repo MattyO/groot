@@ -80,7 +80,7 @@ def get_children_for_widget(widget):
     if children is None and hasmethod(widget, "findChildren"):
         try:
             children = widget.findChildren(QObject)
-        except Error as e:
+        except Exception as e:
             print("Encountered an error {0} trying to findChildren on {1}".format(e, widget))
             print(" .")
             print(" .")
@@ -111,7 +111,7 @@ def method_or_default(target, method_name, default):
         method = getattr(target, method_name)
         try:
             value = method()
-        except Error as e:
+        except Exception as e:
             print("Encountered an error {0} trying to {1} on {2}".format(e, method_name, target))
             print(" .")
             print(" .")
