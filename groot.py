@@ -112,7 +112,7 @@ def method_or_default(target, method_name, default):
         try:
             value = method()
         except:
-            print("Encountered an error trying to {0}() on {1}".format(method_name, widget))
+            print("Encountered an error trying to {0} on {1}".format(method_name, target))
             print(" .")
             print(" .")
             print(" .")
