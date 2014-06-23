@@ -78,7 +78,10 @@ def get_children_for_widget(widget):
     children = method_or_default(widget, "children", None)
 
     if children is None and hasmethod(widget, "findChildren"):
-        children = widget.findChildren(QObject)
+        try:
+            children = widget.findChildren(QObject)
+        except:
+            pass
 
     if children is None:
         children = []
