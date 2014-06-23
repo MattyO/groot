@@ -81,7 +81,7 @@ def get_children_for_widget(widget):
         try:
             children = widget.findChildren(QObject)
         except:
-            pass
+            print("Encountered an error trying to findChildren on {0}".format(widget))
 
     if children is None:
         children = []
@@ -100,7 +100,7 @@ def method_or_default(target, method_name, default):
         try:
             value = method()
         except:
-            pass
+            print("Encountered an error trying to {0}() on {1}".format(method_name, widget))
     elif hasattr(target, method_name):
         value = getattr(target, method_name)
     return value
