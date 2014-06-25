@@ -68,7 +68,7 @@ def get_query_automation_type():
 def get_root_widget(window_name):
     for top_level_widget in QApplication.topLevelWidgets():
         automation_id = method_or_default(top_level_widget, "automation_id", '')
-        if window_name in automation_id:
+        if window_name == automation_id:
             return top_level_widget
 
     return QApplication.topLevelWidgets()[0]
@@ -147,7 +147,7 @@ def find_widget_in_parent(parent, query_value, automation_type):
         child_automation_type = method_or_default(child, 'automation_type', '')
 
 
-        if query_value in text or query_value in name or query_value in automation_id:
+        if query_value in text or query_value in name or query_value == automation_id:
             if automation_type is None:
                 return child
             elif automation_type in child_automation_type:
