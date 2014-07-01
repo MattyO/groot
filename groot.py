@@ -74,7 +74,10 @@ def get_root_widget(window_name):
 
 
 def get_children_for_widget(widget):
-    children = method_or_default(widget, "children", None)
+    children = method_or_default(widget, "childItems", None)
+
+    if children is None:
+        children = method_or_default(widget, "children", None)
 
     if children is None and hasmethod(widget, "findChildren"):
         try:
