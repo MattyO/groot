@@ -2,10 +2,11 @@ import bottle
 import threading
 
 from bottle import template
-from PyQt5.QtCore import Qt, QPoint, QObject
+from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject
 from PyQt5.QtGui import QCursor
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtQuick import QQuickItem, QQuickWidget
 
 
 @bottle.get("/ping")
@@ -22,9 +23,21 @@ def click():
     query_value = get_query_value()
     automation_type = get_query_automation_type()
     widget = find_widget(window_name, query_value, automation_type)
-    if widget is not None:
+
+    if widget is None:
+        return {}
+
+    if type(widget) is QQuickItem:
+        pointf = widget.mapToScene(QPoint(0, 0));
+        point = pointf.toPoint();
+        point.rx() += widget.width() / 2;
+        point.ry() += widget.height() / 2;
+        QTest.mouseClick(get_root_widget(), Qt.LeftButton, Qt.NoModifier, point );
+        return get_widget_json(widget)
+    elif type(widget) is QWidget:
         QTest.mouseClick(widget, Qt.LeftButton)
         return get_widget_json(widget)
+
     return {}
         
 
@@ -75,15 +88,14 @@ def get_root_widget(window_name):
 
 def get_children_for_widget(widget):
     children = None
-    child = method_or_default(widget, "rootObject", None)
-    if child is not None:
-        children = [child]
+
+    if type(widget) is QQuickWidget:
+        child = method_or_default(widget, "rootObject", None)
+        if child is not None:
+            children = [child]
 
     if children is None:
         children = method_or_default(widget, "childItems", None)
-
-    if children is None:
-        children = method_or_default(widget, "children", None)
 
     if children is None and hasmethod(widget, "findChildren"):
         try:
@@ -100,6 +112,15 @@ def get_children_for_widget(widget):
 def hasmethod(obj, method_name):
     return hasattr(obj, method_name) and callable(getattr(obj, method_name))
 
+def qml_method_or_default(target, method_name, default):
+    value = default
+
+    meta_object = target.metaObject()
+    index = meta_object.indexOfProperty(method_name)
+    if index >= 0:
+        value = meta_object.property(index).read(target)
+
+    return value
 
 def method_or_default(target, method_name, default):
     value = default
@@ -127,7 +148,6 @@ def find_widget_in_parent(parent, query_value, automation_type):
         automation_id = method_or_default(child, 'automation_id', '')
         child_automation_type = method_or_default(child, 'automation_type', '')
 
-
         if query_value in text or query_value == name or query_value == object_name or query_value == automation_id:
             if automation_type is None:
                 return child
@@ -140,10 +160,34 @@ def find_widget_in_parent(parent, query_value, automation_type):
 
     return None
 
-
 def get_single_widget_json(widget):
     if widget is None:
         return {}
+
+    if type(widget) is QQuickItem:
+        return get_single_qml_item_json(widget)
+    else
+        return get_single_qwidget_json(widget)
+
+def get_single_qml_item_json(item):
+    widget_id = ''
+    win_id = method_or_default(widget, 'effectiveWinId', None)
+    if win_id is not None:
+        widget_id = "{0}".format(win_id)
+    value = method_or_default(widget, 'text', '')
+    name = method_or_default(widget, 'name', '')
+    x = method_or_default(widget, 'x', 0)
+    y = method_or_default(widget, 'y', 0)
+    width = method_or_default(widget, 'width', 0)
+    height = method_or_default(widget, 'height', 0)
+    automation_id = method_or_default(widget, 'automation_id', '')
+    automation_type = method_or_default(widget, 'automation_type', '')
+    is_visible = method_or_default(widget, 'isVisible', False)
+    is_enabled = method_or_default(widget, 'isEnabled', False)
+
+    return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
+
+def get_single_qwidget_json(widget):
 
     widget_id = ''
     win_id = method_or_default(widget, 'effectiveWinId', None)
