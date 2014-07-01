@@ -174,21 +174,21 @@ def get_single_widget_json(widget):
     else:
         return get_single_qwidget_json(widget)
 
-def get_single_qml_item_json(item):
+def get_single_qml_item_json(widget):
     widget_id = ''
     win_id = method_or_default(widget, 'effectiveWinId', None)
     if win_id is not None:
         widget_id = "{0}".format(win_id)
-    value = method_or_default(widget, 'text', '')
-    name = method_or_default(widget, 'name', '')
-    x = method_or_default(widget, 'x', 0)
-    y = method_or_default(widget, 'y', 0)
-    width = method_or_default(widget, 'width', 0)
-    height = method_or_default(widget, 'height', 0)
+    value = qml_method_or_default(widget, 'text', '')
+    name = qml_method_or_default(widget, 'name', '')
+    x = qml_method_or_default(widget, 'x', 0)
+    y = qml_method_or_default(widget, 'y', 0)
+    width = qml_method_or_default(widget, 'width', 0)
+    height = qml_method_or_default(widget, 'height', 0)
     automation_id = method_or_default(widget, 'automation_id', '')
     automation_type = method_or_default(widget, 'automation_type', '')
-    is_visible = method_or_default(widget, 'isVisible', False)
-    is_enabled = method_or_default(widget, 'isEnabled', False)
+    is_visible = qml_method_or_default(widget, 'isVisible', False)
+    is_enabled = qml_method_or_default(widget, 'isEnabled', False)
 
     return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
