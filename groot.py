@@ -180,7 +180,10 @@ def get_single_qml_item_json(widget):
     if win_id is not None:
         widget_id = "{0}".format(win_id)
     value = qml_method_or_default(widget, 'text', '')
-    name = qml_method_or_default(widget, 'name', '')
+    name = qml_method_or_default(widget, 'name', None)
+    if name is None:
+        name = qml_method_or_default(widget, 'objectName', '')
+
     x = qml_method_or_default(widget, 'x', 0)
     y = qml_method_or_default(widget, 'y', 0)
     width = qml_method_or_default(widget, 'width', 0)
@@ -193,13 +196,14 @@ def get_single_qml_item_json(widget):
     return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
 def get_single_qwidget_json(widget):
-
     widget_id = ''
     win_id = method_or_default(widget, 'effectiveWinId', None)
     if win_id is not None:
         widget_id = "{0}".format(win_id)
     value = method_or_default(widget, 'text', '')
-    name = method_or_default(widget, 'name', '')
+    name = qml_method_or_default(widget, 'name', None)
+    if name is None:
+        name = qml_method_or_default(widget, 'objectName', '')
     x = method_or_default(widget, 'x', 0)
     y = method_or_default(widget, 'y', 0)
     width = method_or_default(widget, 'width', 0)
