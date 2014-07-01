@@ -6,7 +6,8 @@ from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject
 from PyQt5.QtGui import QCursor
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtQuick import QQuickItem, QQuickWidget
+from PyQt5.QtQuick import QQuickItem
+from PyQt5.QtQuickWidgets import QQuickWidget
 
 
 @bottle.get("/ping")
