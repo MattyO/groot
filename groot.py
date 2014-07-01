@@ -165,7 +165,7 @@ def is_found_widget(widget, query_value, automation_type):
         object_name = qml_method_or_default(child, 'objectName', '')
         automation_id = qml_method_or_default(child, 'automation_id', '')
         child_automation_type = qml_method_or_default(child, 'automation_type', '')
-    else
+    else:
         text = method_or_default(child, 'text', '')
         name = method_or_default(child, 'name', '')
         object_name = method_or_default(child, 'objectName', '')
