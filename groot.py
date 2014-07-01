@@ -190,8 +190,8 @@ def get_single_qml_item_json(widget):
     height = qml_method_or_default(widget, 'height', 0)
     automation_id = method_or_default(widget, 'automation_id', '')
     automation_type = method_or_default(widget, 'automation_type', '')
-    is_visible = qml_method_or_default(widget, 'isVisible', False)
-    is_enabled = qml_method_or_default(widget, 'isEnabled', False)
+    is_visible = qml_method_or_default(widget, 'visible', False)
+    is_enabled = qml_method_or_default(widget, 'enabled', False)
 
     return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
