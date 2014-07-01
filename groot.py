@@ -38,8 +38,8 @@ def click():
         point = pointf.toPoint()
         x = point.x()
         y = point.y()
-        x += widget.width() / 2
-        y += widget.height() / 2
+        x += qml_method_or_default(widget, "width", 0) / 2
+        y += qml_method_or_default(widget, "height", 0) / 2
         window_name = get_window_name()
         root_widget = get_root_widget(window_name)
         QTest.mouseClick(root_widget, Qt.LeftButton, Qt.NoModifier, QPoint(x,y) )
