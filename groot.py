@@ -39,8 +39,7 @@ def find_element():
 
 @bottle.get("/ui_tree")
 def ui_tree():
-    window_name = get_window_name()
-    return get_widget_json(get_root_widget(window_name))
+    return get_widget_json(QApplication.topLevelWidgets()[0])
 
 
 def get_query_value():
