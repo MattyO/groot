@@ -40,7 +40,8 @@ def click():
         y = point.y()
         x += widget.width() / 2
         y += widget.height() / 2
-        root_widget = get_root_widget()
+        window_name = get_window_name()
+        root_widget = get_root_widget(window_name)
         QTest.mouseClick(root_widget, Qt.LeftButton, Qt.NoModifier, QPoint(x,y) )
         return get_widget_json(widget)
 
