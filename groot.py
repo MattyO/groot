@@ -166,7 +166,7 @@ def get_single_widget_json(widget):
 
     if type(widget) is QQuickItem:
         return get_single_qml_item_json(widget)
-    else
+    else:
         return get_single_qwidget_json(widget)
 
 def get_single_qml_item_json(item):
