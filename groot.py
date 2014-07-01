@@ -29,11 +29,11 @@ def click():
     if widget is None:
         return {}
 
-    if type(widget) is QWidget:
+    if isinstance(widget, QWidget):
         QTest.mouseClick(widget, Qt.LeftButton)
         return get_widget_json(widget)
 
-    if type(widget) is QQuickItem:
+    if isinstance(widget, QQuickItem):
         pointf = widget.mapToScene(QPoint(0, 0))
         point = pointf.toPoint()
         x = point.x()
@@ -94,7 +94,7 @@ def get_root_widget(window_name):
 def get_children_for_widget(widget):
     children = None
 
-    if type(widget) is QQuickWidget:
+    if isinstance(widget, QQuickWidget):
         child = method_or_default(widget, "rootObject", None)
         if child is not None:
             children = [child]
@@ -169,7 +169,7 @@ def get_single_widget_json(widget):
     if widget is None:
         return {}
 
-    if type(widget) is QQuickItem:
+    if isinstance(widget, QQuickItem):
         return get_single_qml_item_json(widget)
     else:
         return get_single_qwidget_json(widget)
