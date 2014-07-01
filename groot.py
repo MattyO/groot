@@ -156,8 +156,8 @@ def find_widget_in_parent(parent, query_value, automation_type):
 
     return None
 
-def is_found_widget(widget, query_value, automation_type):
-    if isinstance(widget, QQuickItem):
+def is_found_widget(child, query_value, automation_type):
+    if isinstance(child, QQuickItem):
         text = qml_method_or_default(child, 'text', '')
         name = qml_method_or_default(child, 'name', '')
         object_name = qml_method_or_default(child, 'objectName', '')
