@@ -120,7 +120,7 @@ def find_widget_in_parent(parent, query_value, automation_type):
         child_automation_type = method_or_default(child, 'automation_type', '')
 
 
-        if query_value in text or query_value == name or query_value == objectName or query_value == automation_id:
+        if query_value in text or query_value == name or query_value == object_name or query_value == automation_id:
             if automation_type is None:
                 return child
             elif automation_type in child_automation_type:
