@@ -172,11 +172,11 @@ def is_found_widget(child, query_value, automation_type):
 
     if query_value in text or query_value == name or query_value == object_name or query_value == automation_id:
         if automation_type is None:
-            return true
+            return True
         elif automation_type in child_automation_type:
-            return true
+            return True
 
-    return false
+    return False
 
 def get_single_widget_json(widget):
     if widget is None:
