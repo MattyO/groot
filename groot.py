@@ -147,23 +147,38 @@ def find_widget(window_name, query_value, automation_type):
 
 def find_widget_in_parent(parent, query_value, automation_type):
     for child in get_children_for_widget(parent):
-        text = method_or_default(child, 'text', '')
-        name = method_or_default(child, 'name', '')
-        object_name = method_or_default(child, 'objectName', '')
-        automation_id = method_or_default(child, 'automation_id', '')
-        child_automation_type = method_or_default(child, 'automation_type', '')
-
-        if query_value in text or query_value == name or query_value == object_name or query_value == automation_id:
-            if automation_type is None:
-                return child
-            elif automation_type in child_automation_type:
-                return child
+        if is_found_widget(child, query_value, automation_type):
+            return child
 
         found_widget = find_widget_in_parent(child, query_value, automation_type)
         if found_widget is not None:
             return found_widget
 
     return None
+
+def is_found_widget(widget, query_value, automation_type):
+    text,name,object_name,automation_id,child_automation_type = ''
+
+    if isinstance(widget, QQuickItem):
+        text = qml_method_or_default(child, 'text', '')
+        name = qml_method_or_default(child, 'name', '')
+        object_name = qml_method_or_default(child, 'objectName', '')
+        automation_id = qml_method_or_default(child, 'automation_id', '')
+        child_automation_type = qml_method_or_default(child, 'automation_type', '')
+    else
+        text = method_or_default(child, 'text', '')
+        name = method_or_default(child, 'name', '')
+        object_name = method_or_default(child, 'objectName', '')
+        automation_id = method_or_default(child, 'automation_id', '')
+        child_automation_type = method_or_default(child, 'automation_type', '')
+
+    if query_value in text or query_value == name or query_value == object_name or query_value == automation_id:
+        if automation_type is None:
+            return true
+        elif automation_type in child_automation_type:
+            return true
+
+    return false
 
 def get_single_widget_json(widget):
     if widget is None:
