@@ -74,7 +74,12 @@ def get_root_widget(window_name):
 
 
 def get_children_for_widget(widget):
-    children = method_or_default(widget, "childItems", None)
+    child = method_or_default(widget, "rootObject", None)
+    if child is not None:
+        children = [child]
+
+    if children is None:
+        children = method_or_default(widget, "childItems", None)
 
     if children is None:
         children = method_or_default(widget, "children", None)
