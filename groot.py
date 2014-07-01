@@ -28,11 +28,13 @@ def click():
         return {}
 
     if type(widget) is QQuickItem:
-        pointf = widget.mapToScene(QPoint(0, 0));
-        point = pointf.toPoint();
-        point.rx() += widget.width() / 2;
-        point.ry() += widget.height() / 2;
-        QTest.mouseClick(get_root_widget(), Qt.LeftButton, Qt.NoModifier, point );
+        pointf = widget.mapToScene(QPoint(0, 0))
+        point = pointf.toPoint()
+        x = point.x()
+        y = point.y()
+        x += widget.width() / 2
+        y += widget.height() / 2
+        QTest.mouseClick(get_root_widget(), Qt.LeftButton, Qt.NoModifier, point )
         return get_widget_json(widget)
     elif type(widget) is QWidget:
         QTest.mouseClick(widget, Qt.LeftButton)
