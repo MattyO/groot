@@ -34,12 +34,14 @@ def click():
         return get_widget_json(widget)
 
     if isinstance(widget, QQuickItem):
-        pointf = widget.mapToScene(QPoint(0, 0))
-        point = pointf.toPoint()
-        x = point.x()
-        y = point.y()
-        x += qml_method_or_default(widget, "width", 0) / 2
-        y += qml_method_or_default(widget, "height", 0) / 2
+        mapped_rectf = widget.mapRectToScene(QRectF(0.0,0.0,1.0,1.0))
+        print("mapped 0,0,1,1 to {0}".format(mapped_rectf))
+        print("")
+        pointf = widget.mapToScene(QPointF(0.0, 0.0))
+        x = pointf.x()
+        y = pointf.y()
+        x += qml_method_or_default(widget, "width", 0.0) / 2.0
+        y += qml_method_or_default(widget, "height", 0.0) / 2.0
         window_name = get_window_name()
         root_widget = get_root_widget(window_name)
         point = QPoint(x,y)
