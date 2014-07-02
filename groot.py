@@ -246,7 +246,6 @@ def get_widget_json(widget):
 
     return widget_json
 
-clicker = Clicker()
 
 def start_automation_server():
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':True})
@@ -265,3 +264,5 @@ class Clicker(QObject):
 
     def _click_on_ui_thread(self, widget, point = None):
         QTest.mouseClick(widget, Qt.LeftButton, Qt.NoModifier, point)
+
+clicker = Clicker()
