@@ -61,7 +61,7 @@ def find_element():
 
 @bottle.get("/ui_tree")
 def ui_tree():
-    return json.dumps(get_widget_json(QApplication.topLevelWidgets()[0]), sort_keys=True, indent=4, seperators(',',': '))
+    return json.dumps(get_widget_json(QApplication.topLevelWidgets()[0]), sort_keys=True, indent=4, seperators=(',',': '))
 
 
 def get_query_value():
