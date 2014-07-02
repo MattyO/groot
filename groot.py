@@ -1,4 +1,5 @@
 import bottle
+import json
 import threading
 
 from bottle import template
@@ -60,7 +61,7 @@ def find_element():
 
 @bottle.get("/ui_tree")
 def ui_tree():
-    return get_widget_json(QApplication.topLevelWidgets()[0])
+    return JSON.stringify(get_widget_json(QApplication.topLevelWidgets()[0]), null, 4)
 
 
 def get_query_value():
