@@ -31,7 +31,7 @@ def click():
         return {}
 
     if isinstance(widget, QWidget):
-        do_click.emit(widget)
+        clicker.click_on(widget)
         return get_widget_json(widget)
 
     if isinstance(widget, QQuickItem):
@@ -44,7 +44,7 @@ def click():
         root_widget = get_root_widget(window_name)
         point = QPoint(x,y)
         quick_widget = root_widget.childAt(point.x(), point.y())
-        do_click.emit(quick_widget, point)
+        clicker.click_on(quick_widget, point)
         return get_widget_json(widget)
 
     return {}
@@ -246,15 +246,22 @@ def get_widget_json(widget):
 
     return widget_json
 
-
-do_click = pyqtSignal(QWidget, QPoint)
-
-def click_on_ui_thread(widget, point = None):
-    QTest.mouseClick(widget, Qt.LeftButton, Qt.NoModifier, point)
+clicker = Clicker()
 
 def start_automation_server():
-    do_click.connect(click_on_ui_thread)
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':True})
     thread.setDaemon(True)
     thread.start()
 
+class Clicker(QObject):
+    do_click = pyqtSignal(QWidget, QPoint)
+
+    def __init__(self):
+        super(QObject, self).__init__()
+        do_click.connect(self._click_on_ui_thread)
+
+    def click_on(target, point):
+        do_click.emit(target, point)
+
+    def _click_on_ui_thread(self, widget, point = None):
+        QTest.mouseClick(widget, Qt.LeftButton, Qt.NoModifier, point)
