@@ -257,10 +257,10 @@ class Clicker(QObject):
 
     def __init__(self):
         super(QObject, self).__init__()
-        do_click.connect(self._click_on_ui_thread)
+        self.do_click.connect(self._click_on_ui_thread)
 
-    def click_on(target, point):
-        do_click.emit(target, point)
+    def click_on(self, target, point):
+        self.do_click.emit(target, point)
 
     def _click_on_ui_thread(self, widget, point = None):
         QTest.mouseClick(widget, Qt.LeftButton, Qt.NoModifier, point)
