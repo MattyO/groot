@@ -41,19 +41,8 @@ def click():
         y += qml_method_or_default(widget, "height", 0.0) / 2.0
         window_name = get_window_name()
         root_widget = get_root_widget(window_name)
-
         point = QPoint(x,y)
         quick_widget = root_widget.childAt(point.x(), point.y())
-#        quick_widget2 = QApplication.widgetAt(point)
-        print("found widget at {0}: {1}".format(point, quick_widget))
-        print("clicking at {0} on {1} for {2}".format(point, root_widget, widget))
-#        print("quick_widget2: {0}".format(quick_widget2))
-        print("")
-        print("")
-        print("")
-        print("")
-        print("")
-        print("")
         QTest.mouseClick(quick_widget, Qt.LeftButton, Qt.NoModifier, point )
         return get_widget_json(widget)
 
