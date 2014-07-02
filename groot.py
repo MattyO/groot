@@ -3,7 +3,7 @@ import json
 import threading
 
 from bottle import template
-from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject, QPointF, QRectF, QRect
+from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject, QPointF, QRectF, QRect, pyqtSignal
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtTest import QTest
@@ -31,7 +31,7 @@ def click():
         return {}
 
     if isinstance(widget, QWidget):
-        QTest.mouseClick(widget, Qt.LeftButton)
+        do_click.emit(widget)
         return get_widget_json(widget)
 
     if isinstance(widget, QQuickItem):
@@ -44,7 +44,7 @@ def click():
         root_widget = get_root_widget(window_name)
         point = QPoint(x,y)
         quick_widget = root_widget.childAt(point.x(), point.y())
-        QTest.mouseClick(quick_widget, Qt.LeftButton, Qt.NoModifier, point )
+        do_click.emit(quick_widget, point)
         return get_widget_json(widget)
 
     return {}
@@ -247,7 +247,13 @@ def get_widget_json(widget):
     return widget_json
 
 
+do_click = pyqtSignal(QWidget, QPoint)
+
+def click_on_ui_thread(widget, point = None):
+    QTest.mouseClick(widget, Qt.LeftButton, Qt.NoModifier, point)
+
 def start_automation_server():
+    do_click.connect(click_on_ui_thread)
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':True})
     thread.setDaemon(True)
     thread.start()
