@@ -44,10 +44,10 @@ def click():
 
         point = QPoint(x,y)
         quick_widget = root_widget.childAt(point.x(), point.y())
-        quick_widget2 = QApplication.widgetAt(point)
+#        quick_widget2 = QApplication.widgetAt(point)
         print("found widget at {0}: {1}".format(point, quick_widget))
         print("clicking at {0} on {1} for {2}".format(point, root_widget, widget))
-        print("quick_widget2: {0}".format(quick_widget2))
+#        print("quick_widget2: {0}".format(quick_widget2))
         print("")
         print("")
         print("")
