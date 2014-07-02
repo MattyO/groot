@@ -2,7 +2,7 @@ import bottle
 import threading
 
 from bottle import template
-from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject
+from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject, QPointF, QRectF, QRect
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtTest import QTest
