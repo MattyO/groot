@@ -34,9 +34,6 @@ def click():
         return get_widget_json(widget)
 
     if isinstance(widget, QQuickItem):
-        mapped_rectf = widget.mapRectToScene(QRectF(0.0,0.0,1.0,1.0))
-        print("mapped 0,0,1,1 to {0}".format(mapped_rectf))
-        print("")
         pointf = widget.mapToScene(QPointF(0.0, 0.0))
         x = pointf.x()
         y = pointf.y()
@@ -51,7 +48,9 @@ def click():
         print("")
         print("")
         print("")
-        QTest.mouseClick(root_widget, Qt.LeftButton, Qt.NoModifier, point )
+        #QTest.mouseClick(root_widget, Qt.LeftButton, Qt.NoModifier, point )
+        QTest.mousePress(root_widget, Qt.LeftButton, Qt.NoModifier, point )
+        QTest.mouseRelease(root_widget, Qt.LeftButton, Qt.NoModifier, point, 1)
         return get_widget_json(widget)
 
     return {}
