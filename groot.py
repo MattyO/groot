@@ -4,8 +4,8 @@ import threading
 
 from bottle import template
 from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject, QPointF, QRectF, QRect, pyqtSignal
-from PyQt5.QtGui import QCursor, QLayoutItem
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QCursor
+from PyQt5.QtWidgets import QWidget, QLayoutItem
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtQuick import QQuickItem
