@@ -4,7 +4,7 @@ import threading
 
 from bottle import template
 from PyQt5.QtCore import Qt, QPoint, QObject, QMetaObject, QPointF, QRectF, QRect, pyqtSignal
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QLayoutItem
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
@@ -227,8 +227,13 @@ def get_single_qwidget_json(widget):
     height = method_or_default(widget, 'height', 0)
     automation_id = method_or_default(widget, 'automation_id', '')
     automation_type = method_or_default(widget, 'automation_type', '')
-    is_visible = method_or_default(widget, 'isVisible', False)
-    is_enabled = method_or_default(widget, 'isEnabled', False)
+    default_visibility = False
+    default_enabled = False
+    if isinstance(widget, QLayoutItem):
+        default_visibility = True
+        default_enabled = True
+    is_visible = method_or_default(widget, 'isVisible', default_visibility)
+    is_enabled = method_or_default(widget, 'isEnabled', default_enabled)
 
     return {'type':widget.__class__.__name__, 'id':widget_id , 'automation_id':automation_id, 'automation_type':automation_type, 'name':name, 'value':value, 'frame':{'x':x,'y':y,'width':width,'height':height}, 'visible':is_visible, 'enabled':is_enabled}
 
