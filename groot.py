@@ -61,7 +61,7 @@ def find_element():
 
 @bottle.get("/")
 def ui_tree():
-    return template("<pre>{{ui_tree}}</pre>" ui_tree=json.dumps(get_widget_json(QApplication.topLevelWidgets()[0]), sort_keys=True, indent=4, separators=(',',': '))
+    return template("<pre>{{ui_tree}}</pre>", ui_tree=json.dumps(get_widget_json(QApplication.topLevelWidgets()[0]), sort_keys=True, indent=4, separators=(',',': '))
 
 
 def get_query_value():
